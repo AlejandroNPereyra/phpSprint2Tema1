@@ -13,6 +13,11 @@ FROM producto;
 SELECT *
 FROM producto;
 
+-- Segunda opción utilizando SHOW COLUMS
+
+SHOW COLUMNS
+FROM producto;
+
 /* 4. Llista el nom dels "productos", el preu en euros i el preu en dòlars nord-americans (USD).*/
 
 SELECT nombre, precio AS 'precio(€)', (precio / 0.9) AS 'precio(U$D)'
@@ -48,7 +53,12 @@ FROM producto;
 /* 10. Llista els noms i els preus de tots els productes de la taula "producto", truncant el valor del preu 
 per a mostrar-lo sense cap xifra decimal.*/
 
-SELECT nombre, ROUND(precio, 0) AS 'precio truncado sin decimales' 
+-- SELECT nombre, ROUND(precio, 0) AS 'precio truncado sin decimales' 
+-- FROM producto;
+
+-- Repito la consigna utilizando la función TRUNCATE
+
+SELECT nombre, TRUNCATE(precio, 0) AS 'precio truncado sin decimales'
 FROM producto;
 
 /* 11. Llista el codi dels fabricants que tenen productes en la taula "producto".*/
@@ -234,37 +244,12 @@ WHERE pro.nombre IS NULL;
 
 -- 36. Retorna tots els productes del fabricant Lenovo. (Sense utilitzar INNER JOIN).
 
-/*SELECT fab.nombre AS nombre_fabricante, pro.nombre AS nombre_producto
-FROM fabricante AS fab
-JOIN producto AS pro ON pro.codigo_fabricante = fab.codigo
-WHERE fab.nombre IN ('Lenovo');*/
-
-SELECT nombre
-FROM producto
-WHERE codigo_fabricante = 2;
-
 -- 37. Retorna totes les dades dels productes que tenen el mateix preu que el producte més car del fabricant Lenovo. 
 -- (Sense fer servir INNER JOIN).
 
-SELECT *
-FROM producto
-WHERE precio IN (
-    SELECT MAX(precio)
-    FROM producto
-    GROUP BY precio
-    HAVING COUNT(*) > 1);
-
 -- 38. Llista el nom del producte més car del fabricant Lenovo.
 
-SELECT MAX(precio), nombre
-FROM producto
-WHERE codigo_fabricante = 2;
-
 -- 39. Llista el nom del producte més barat del fabricant Hewlett-Packard.
-
-SELECT MIN(precio), nombre
-FROM producto
-WHERE codigo_fabricante = 3;
 
 -- 40. Retorna tots els productes de la base de dades que tenen un preu major o igual 
 -- al producte més car del fabricant Lenovo.
