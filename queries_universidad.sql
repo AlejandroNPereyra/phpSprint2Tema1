@@ -151,12 +151,6 @@ ORDER BY numero_profesores DESC;
 -- Té en compte que poden existir departaments que no tenen professors/es associats/des. 
 -- Aquests departaments també han d'aparèixer en el llistat.
 
-/*SELECT per.apellido1, per.apellido2, per.nombre, dep.nombre AS nombre_departamento
-FROM persona AS per
-RIGHT JOIN profesor AS prof ON prof.id_profesor = per.id 
-RIGHT JOIN departamento AS dep ON dep.id = prof.id_departamento
-WHERE tipo LIKE 'profesor'OR prof.id_departamento IS NULL;*/
-
 SELECT dep.nombre AS nombre_departamento, COUNT(prof.id_departamento) as numero_profesores
 FROM departamento AS dep
 LEFT JOIN profesor AS prof ON prof.id_departamento = dep.id
