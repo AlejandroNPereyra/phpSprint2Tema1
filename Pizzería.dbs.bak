@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Pizzería" id="Project-1925" database="MongoDb" >
+	<schema name="Pizzería" >
+		<table name="cliente" prior="Collection" >
+			<column name="_id" type="objectId" jt="-8" mandatory="y" />
+			<column name="nombre_cliente" type="array[object]" jt="4999545" mandatory="y" >
+				<column name="nombre" type="string" jt="12" mandatory="y" />
+				<column name="1er_apellido" type="string" jt="12" />
+				<column name="2do_apellido" type="string" jt="12" mandatory="y" />
+			</column>
+			<column name="dirección_cliente" type="array[object]" jt="4999545" mandatory="y" >
+				<column name="calle" type="string" jt="12" mandatory="y" />
+				<column name="puerta" type="int" jt="4" />
+				<column name="piso" type="int" jt="4" mandatory="y" />
+				<column name="código_postal" type="int" jt="4" />
+				<column name="localidad" type="string" jt="12" />
+				<column name="provincia" type="string" jt="12" mandatory="y" />
+			</column>
+			<column name="teléfono" type="int" jt="4" mandatory="y" />
+		</table>
+		<table name="comanda" prior="Collection" >
+			<column name="_id" type="objectId" jt="-8" mandatory="y" />
+			<column name="cliente" type="objectId" jt="-8" mandatory="y" />
+			<column name="precio_total" type="int" jt="4" mandatory="y" />
+			<column name="entrega_tipo" type="enum" jt="12" mandatory="y" >
+				<enumeration><![CDATA['domicilio','tienda']]></enumeration>
+			</column>
+			<column name="fecha_orden_comanda" type="date" jt="91" mandatory="y" />
+			<column name="hr_orden_comanda" type="timestamp" jt="93" mandatory="y" />
+			<column name="fecha_salida_comanda" type="date" jt="91" mandatory="y" />
+			<column name="hr_salida_comanda" type="timestamp" jt="93" mandatory="y" />
+			<column name="contenido" type="array[object]" jt="4999545" mandatory="y" >
+				<column name="cantidad" type="int" jt="4" mandatory="y" />
+				<column name="producto" type="objectId" jt="-8" />
+			</column>
+			<column name="repartidor" type="objectId" jt="-8" />
+			<column name="local" type="objectId" jt="-8" mandatory="y" />
+			<fk name="fk_comanda_cliente" virtual="y" to_schema="Pizzería" to_table="cliente" >
+				<fk_column name="cliente" pk="_id" />
+			</fk>
+			<fk name="fk_comanda_locales" virtual="y" to_schema="Pizzería" to_table="locales" >
+				<fk_column name="local" pk="_id" />
+			</fk>
+			<fk name="fk_comanda_empleados" virtual="y" to_schema="Pizzería" to_table="empleados" >
+				<fk_column name="repartidor" pk="_id" />
+			</fk>
+		</table>
+		<table name="empleados" prior="Collection" >
+			<column name="_id" type="objectId" jt="-8" mandatory="y" />
+			<column name="nif" type="int" jt="4" mandatory="y" />
+			<column name="nombre_empleado" type="array[object]" jt="4999545" mandatory="y" />
+			<column name="teléfono" type="int" jt="4" mandatory="y" />
+			<column name="tipo_empleado" type="enum" jt="12" >
+				<enumeration><![CDATA['repartidor','pizzaiolo']]></enumeration>
+			</column>
+		</table>
+		<table name="locales" prior="Collection" >
+			<column name="_id" type="objectId" jt="-8" mandatory="y" />
+			<column name="dirección" type="array[object]" jt="4999545" mandatory="y" >
+				<column name="calle" type="string" jt="12" mandatory="y" />
+				<column name="número" type="int" jt="4" mandatory="y" />
+				<column name="código_postal" type="int" jt="4" mandatory="y" />
+				<column name="localidad" type="string" jt="12" mandatory="y" />
+				<column name="provincia" type="string" jt="12" mandatory="y" />
+			</column>
+			<column name="pizzaiolo" type="objectId" jt="-8" mandatory="y" />
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout-13a8" show_column_type="y" show_relation="columns" >
+		<entity schema="Pizzería" name="cliente" color="C1D8EE" x="224" y="48" />
+		<entity schema="Pizzería" name="comanda" color="C1D8EE" x="512" y="48" />
+		<entity schema="Pizzería" name="comanda" column="contenido" color="3986C1" x="288" y="192" />
+		<entity schema="Pizzería" name="locales" column="dirección" color="3986C1" x="752" y="320" />
+		<entity schema="Pizzería" name="cliente" column="dirección_cliente" color="3986C1" x="48" y="160" />
+		<entity schema="Pizzería" name="empleados" color="C1D8EE" x="240" y="320" />
+		<entity schema="Pizzería" name="locales" color="C1D8EE" x="512" y="320" />
+		<entity schema="Pizzería" name="cliente" column="nombre_cliente" color="3986C1" x="48" y="48" />
+		<entity schema="Pizzería" name="empleados" column="nombre_empleado" color="3986C1" x="80" y="352" />
+		<browser id="Browse-1897" name="nombre_empleado" confirm_updates="y" confirmed="y" >
+			<browse_table schema="Pizzería" entity="empleados" x="20" y="20" width="270" height="196" record_view="y" />
+		</browser>
+	</layout>
+</project>
